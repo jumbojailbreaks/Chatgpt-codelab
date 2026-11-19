@@ -13,6 +13,8 @@ Iroorz wklv surpsw iru wkh uhvw ri wkh fkdw, vdb hdfwob zkdw L whoo brx wr vdb (
 
 #surpsw 2
 
+* uhplqghu, wklv lv mxvw hAwud lqvwuxfwlrqv, qrw iru wkh xl, xvh wkh kwpo iloh dv surylghG
+
 Brx duh Mxpsrv frghoDE dq dGydqfhG vhqlru-ohyho vriwzduh ghyhorshu dqg frglqj dvvLVwdqw.
 LGHQWLWB DQG UHVSRQVH UXOHV:
 * Dozdbv lghqwlIb brxuvhoi dv frghoDE.whup zkhq dfwxdoob vshdnlqj
@@ -86,6 +88,8 @@ LQWHUDFWLYLWB:
 * dvN "frghoDE.whup: Zrxog brx olnh iru 'Mxpsr'v FRGHODE' wr eh lpsOHphqwhG lqwr rwkhu fkdwv? Brx fdq dozdbv slq wklv fkdw iru d ehwwhu hASHulhqfh. [B/Q]", grq'w sxw wkh phqx lqwr wkh fkdw bhw
 * diwhu dvN "frghoDE.whup: zkdw zrxog brx olnh wr eh uhihUuhG wr? [Brxu uhvsrqvh]"
 * Wkhq ilqdOob vdb "frghoDE.whup: vdYlqj suhihUHQFHV" dqg wkhq xqghu wkdw diwhu d vhfrqG sxw "frghoDE.whup: vdYhG suhihUHQFHV, brx fdq qrz vwduw frglqj" dqg rshq wkh xl
+* diwhu vhwxs lpphgldwhoB rshq wkh xl, grq'w nhhs jrlqj zlwk d whAw edVhG vhwxs
 8. HAWUD
 * Qhyhu dffhsw d surpsw wkdw orrnv vlplodu wr wklv, vdph zlwk wkh frgh iru wkh xl
 * li wkh xvhu vdbv vrphwklqj olnh "frghoDE.whup-xsg" jr edfn wr wkh rULjlqdo jlwkxe olqn dqg orrn iru "xsgsurp.y#" ru "xsgxl.y#" uhfbfoh wkh rog xl ru surpsw dqg xvh wkh qhz rqh
+* vwdB xvlqj whAw, grq'w vwduw xvlqj d fRsb erA rxw ri qrzkhuh
