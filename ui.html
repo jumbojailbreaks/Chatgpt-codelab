@@ -1,0 +1,470 @@
+caeser +3
+
+uhihuhqfh wklv kwpo lqwr d xl, grq'w mxvw wxuq lw lqwr d kwpo wklqj
+
+caeser end
+
+#code
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Codelab UI Framework</title>
+
+<style>
+:root {
+  --bg:#050505;
+  --panel:#151515;
+  --accent:#FF294F;
+  --text:#f2f2f2;
+  --muted:#999;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,sans-serif;
+}
+header {
+  padding:22px;
+  border-bottom:1px solid var(--accent);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.logo {
+  color:var(--accent);
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:3px;
+}
+.subtitle {color:var(--muted);font-size:11px}
+.online {color:#4ade80;font-size:12px}
+.container {max-width:1000px;margin:auto;padding:20px}
+input {
+  width:100%;
+  background:var(--panel);
+  border:1px solid #444;
+  color:white;
+  padding:13px;
+  border-radius:8px;
+  margin-bottom:14px;
+}
+nav,.grid,.color-grid {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin:15px 0;
+}
+button {
+  background:var(--panel);
+  color:var(--text);
+  border:1px solid #414141;
+  border-radius:8px;
+  padding:13px;
+  cursor:pointer;
+  transition:.15s;
+}
+button:hover,button.active {
+  border-color:var(--accent);
+  color:var(--accent);
+}
+.panel,.stat {
+  background:var(--panel);
+  padding:18px;
+  border-radius:12px;
+  border:1px solid #292929;
+  margin-bottom:12px;
+}
+.stats {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.stat small {color:var(--muted)}
+.stat h2 {color:var(--accent);margin-bottom:0}
+.section-title {color:var(--accent);font-size:19px}
+.item {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:12px 0;
+  border-bottom:1px solid #292929;
+}
+.item button {padding:8px 12px}
+.color-option {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-align:left;
+}
+.dot {width:17px;height:17px;border-radius:50%;flex-shrink:0}
+.preview {
+  border:1px solid var(--accent);
+  border-radius:10px;
+  padding:20px;
+}
+.hidden {display:none!important}
+footer {
+  text-align:center;
+  color:var(--muted);
+  font-size:11px;
+  padding:25px;
+}
+@media(max-width:450px) {
+  .container {padding:12px}
+  header {padding:16px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div>
+    <div class="logo">CODELAB</div>
+    <div class="subtitle">DEVELOPER ENVIRONMENT · v1.0</div>
+  </div>
+  <span class="online">● ONLINE</span>
+</header>
+
+<main class="container">
+
+<input id="search" placeholder="Search commands or sections...">
+
+<nav id="navigation">
+  <button data-page="Dashboard" class="active">Dashboard</button>
+  <button data-page="Command Directory">Command Directory</button>
+  <button data-page="Code Lab">Code Lab</button>
+  <button data-page="Developer Tools">Developer Tools</button>
+  <button data-page="Settings">Settings</button>
+  <button data-page="About">About</button>
+</nav>
+
+<div id="content"></div>
+
+</main>
+
+<footer>CODELAB UI FRAMEWORK · v1.0</footer>
+
+<script>
+
+// FRAMEWORK CONFIGURATION
+
+const CONFIG = {
+  name:"Codelab",
+  uiVersion:"1.0",
+  promptVersion:"1.0"
+};
+
+// COMMAND DIRECTORY
+
+const commands = [
+  "/help","/menu","/code","/debug","/explain",
+  "/optimize","/review","/build","/status","/reset"
+];
+
+// CODE LAB LANGUAGES
+
+const languages = [
+  "Python","JavaScript","HTML/CSS","C#",
+  "Unity","Android Development",
+  "API Development","Project Architecture"
+];
+
+// DEVELOPER TOOLS
+
+const tools = [
+  "Code Generator","Bug Analyzer","UI Architect",
+  "File Planner","Performance Analyzer",
+  "Documentation Writer","Responsible AI"
+];
+
+// THEME OPTIONS
+
+const themes = {
+  "Black":["#050505","#151515"],
+  "Midnight":["#080D20","#141D35"],
+  "Dark Gray":["#171717","#252525"],
+  "Deep Purple":["#10091C","#241532"],
+  "Light":["#F3F4F6","#FFFFFF"]
+};
+
+// ACCENT OPTIONS
+
+const accents = {
+  "Crimson":"#FF294F",
+  "Neon Blue":"#24A8FF",
+  "Purple":"#A855F7",
+  "Emerald":"#22C58B",
+  "Orange":"#FF922E",
+  "Pink":"#FF62B5",
+  "White":"#EEEEEE"
+};
+
+// DEFAULTS
+// No previous personal settings are imported.
+
+let selectedTheme="Black";
+let selectedAccent="Crimson";
+let currentPage="Dashboard";
+
+const STORAGE_KEY="codelab_framework_settings";
+
+function saveSettings() {
+  localStorage.setItem(STORAGE_KEY,JSON.stringify({
+    theme:selectedTheme,
+    accent:selectedAccent
+  }));
+}
+
+function loadSettings() {
+  try {
+    const saved=JSON.parse(
+      localStorage.getItem(STORAGE_KEY)||"{}"
+    );
+
+    if(themes[saved.theme]) selectedTheme=saved.theme;
+    if(accents[saved.accent]) selectedAccent=saved.accent;
+  } catch {
+    localStorage.removeItem(STORAGE_KEY);
+  }
+}
+
+// APPEARANCE ENGINE
+
+function applyAppearance() {
+  document.documentElement.style.setProperty(
+    "--bg",themes[selectedTheme][0]
+  );
+  document.documentElement.style.setProperty(
+    "--panel",themes[selectedTheme][1]
+  );
+  document.documentElement.style.setProperty(
+    "--accent",accents[selectedAccent]
+  );
+}
+
+// NAVIGATION ENGINE
+
+function navigate(page) {
+  currentPage=page;
+
+  document.querySelectorAll("nav button").forEach(button=>{
+    button.classList.toggle(
+      "active",button.dataset.page===page
+    );
+  });
+
+  render();
+}
+
+// CLIPBOARD ENGINE
+
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    alert("Copied: "+text);
+  } catch {
+    const area=document.createElement("textarea");
+    area.value=text;
+    document.body.appendChild(area);
+    area.select();
+    document.execCommand("copy");
+    area.remove();
+    alert("Copied: "+text);
+  }
+}
+
+// TOOL HANDLER
+
+function openTool(name) {
+  alert(name+" selected. Connect an implementation or API to enable this tool.");
+}
+
+// THEME HANDLER
+
+function changeTheme(name) {
+  selectedTheme=name;
+  saveSettings();
+  applyAppearance();
+  render();
+}
+
+// ACCENT HANDLER
+
+function changeAccent(name) {
+  selectedAccent=name;
+  saveSettings();
+  applyAppearance();
+  render();
+}
+
+// PAGE RENDERER
+
+function render() {
+  const content=document.getElementById("content");
+  let html="";
+
+  if(currentPage==="Dashboard") {
+    html=`
+      <h2 class="section-title">SYSTEM OVERVIEW</h2>
+
+      <div class="stats">
+        <div class="stat">
+          <small>PROMPT VERSION</small>
+          <h2>${CONFIG.promptVersion}</h2>
+        </div>
+        <div class="stat">
+          <small>UI VERSION</small>
+          <h2>${CONFIG.uiVersion}</h2>
+        </div>
+      </div>
+
+      <h2 class="section-title">QUICK ACCESS</h2>
+
+      <div class="grid">
+        ${["Code Lab","Developer Tools","Command Directory","Settings"]
+          .map(x=>`
+            <button onclick="navigate('${x}')">${x}</button>
+          `).join("")}
+      </div>
+
+      <p class="subtitle">Codelab is ready for development.</p>
+    `;
+  }
+
+  if(currentPage==="Command Directory") {
+    html=`<h2 class="section-title">AVAILABLE COMMANDS</h2>`;
+
+    html+=commands.map(c=>`
+      <div class="item">
+        <span style="color:var(--accent)">${c}</span>
+        <button onclick="copyText('${c}')">COPY</button>
+      </div>
+    `).join("");
+  }
+
+  if(currentPage==="Code Lab") {
+    html=`<h2 class="section-title">LANGUAGE SELECTOR</h2>`;
+
+    html+=languages.map(x=>`
+      <button style="width:100%;margin-bottom:9px"
+        onclick="openTool('${x}')">${x} →</button>
+    `).join("");
+  }
+
+  if(currentPage==="Developer Tools") {
+    html=`<h2 class="section-title">DEVELOPMENT UTILITIES</h2>`;
+
+    html+=tools.map(x=>`
+      <button style="width:100%;margin-bottom:9px"
+        onclick="openTool('${x}')">${x} →</button>
+    `).join("");
+  }
+
+  if(currentPage==="Settings") {
+    html=`
+      <h2 class="section-title">APPEARANCE SETTINGS</h2>
+
+      <div class="panel">
+        <h3>Choose a theme</h3>
+
+        <div class="color-grid">
+          ${Object.entries(themes).map(([name,colors])=>`
+            <button class="color-option"
+              onclick="changeTheme('${name}')">
+              <span class="dot"
+                style="background:${colors[0]};border:1px solid #888">
+              </span>
+              ${name} ${selectedTheme===name?"✓":""}
+            </button>
+          `).join("")}
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Choose an accent color</h3>
+
+        <div class="color-grid">
+          ${Object.entries(accents).map(([name,color])=>`
+            <button class="color-option"
+              onclick="changeAccent('${name}')">
+              <span class="dot" style="background:${color}"></span>
+              ${name} ${selectedAccent===name?"✓":""}
+            </button>
+          `).join("")}
+        </div>
+      </div>
+
+      <div class="preview">
+        <h2 style="color:var(--accent)">Live Preview</h2>
+        <p>This is your selected appearance.</p>
+        <button>Example Button</button>
+      </div>
+
+      <p class="subtitle">
+        Current theme: ${selectedTheme}<br>
+        Current accent: ${selectedAccent}
+      </p>
+    `;
+  }
+
+  if(currentPage==="About") {
+    html=`
+      <h2 class="section-title">ABOUT CODELAB</h2>
+      <div class="panel">
+        Framework: ${CONFIG.name}<br><br>
+        UI Version: ${CONFIG.uiVersion}<br><br>
+        Prompt Version: ${CONFIG.promptVersion}<br><br>
+        Environment: Browser
+      </div>
+    `;
+  }
+
+  content.innerHTML=html;
+}
+
+// NAVIGATION EVENTS
+
+document.getElementById("navigation")
+.addEventListener("click",event=>{
+  const button=event.target.closest("button[data-page]");
+  if(button) navigate(button.dataset.page);
+});
+
+// SEARCH ENGINE
+
+document.getElementById("search")
+.addEventListener("input",event=>{
+  const query=event.target.value.toLowerCase();
+
+  document.querySelectorAll("nav button").forEach(button=>{
+    button.classList.toggle(
+      "hidden",
+      !button.dataset.page.toLowerCase().includes(query)
+    );
+  });
+
+  document.querySelectorAll("#content .item").forEach(item=>{
+    item.classList.toggle(
+      "hidden",
+      !item.textContent.toLowerCase().includes(query)
+    );
+  });
+});
+
+// STARTUP
+
+loadSettings();
+applyAppearance();
+render();
+
+</script>
+</body>
+</html>
